@@ -1,0 +1,98 @@
+worker_processes 22;
+events {
+        worker_connections  1024;
+}
+http {
+        include       mime.types;
+        default_type  application/octet-stream;
+        sendfile        on;
+        #keepalive_timeout  0;
+        keepalive_timeout  65;
+
+        upstream upstream_server {
+                server 192.168.1.20;
+        }
+
+        server {
+                listen       80;
+                server_name  bl.com www.bl.com;
+
+                location / {
+                        proxy_set_header X-Real-IP $remote_addr;
+                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                        proxy_set_header Host $http_host;
+                        proxy_redirect off;
+                        proxy_pass http://192.168.1.20;
+                        break;
+                }
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            #proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+            }
+            client_max_body_size       10m;
+            client_body_buffer_size    128k;
+
+            proxy_connect_timeout      90;
+            proxy_send_timeout         90;
+            proxy_read_timeout         90;
+
+            proxy_buffer_size          4k;
+            proxy_buffers              4 32k;
+            proxy_busy_buffers_size    64k;
+            proxy_temp_file_write_size 64k;
+        
+server {
+            listen      80;
+            server_name door.fsh.com;
+            access_log  /var/log/nginx/door.fh.com.access.log  main;
+            error_log   /var/log/nginx/door.fh.com.error.log;
+            root        /;
+            index       index.html;
+
+            location / {
+                proxy_pass http://192.168.1.149:8081 ;
+                proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+
+                proxy_redirect off;
+                proxy_buffering off;
+                proxy_set_header        Host            192.168.1.149:8081;
+                proxy_set_header        X-Real-IP       $remote_addr;
+#               proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+                }
+        }
+server {
+              listen      80;
+              server_name ic.fh.com;
+              access_log  /var/log/nginx/ic.com.access.log  main;
+              error_log   /var/log/nginx/ic.com.error.log;
+
+              root        /;
+              index       index.html;
+
+              location / {
+              proxy_pass http://192.168.1.113 ;
+              proxy_redirect off;
+              proxy_buffering off;
+              proxy_set_header        Host            192.168.1.113;
+              proxy_set_header        X-Real-IP       $remote_addr;
+                  }
+          }
+server {
+              listen      80;
+             server_name oc.fh.com;
+             access_log  /var/log/nginx/oc.com.access.log  main;
+             error_log   /var/log/nginx/oc.com.error.log;
+
+              root        /;
+              index       index.html;
+
+              location / {
+                  proxy_pass http://192.168.1.151 ;
+                  proxy_redirect off;
+                  proxy_buffering off;
+                  proxy_set_header        Host            192.168.1.151;
+                  proxy_set_header        X-Real-IP       $remote_addr;
+                  }
+          }
+}
