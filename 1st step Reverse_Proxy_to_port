@@ -1,4 +1,5 @@
-#code available at https://quickleft.com/blog/reverse-proxying-local-servers-through-nginx/
+#code available at https://gist.github.com/cookrn/778512#file-sample_nginx_config-conf
+# found via https://quickleft.com/blog/reverse-proxying-local-servers-through-nginx/
 
 #----<nginx.conf>
 worker_processes 22;
