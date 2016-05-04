@@ -1,5 +1,8 @@
 #code available at https://gist.github.com/cookrn/778512#file-sample_nginx_config-conf
 # found via https://quickleft.com/blog/reverse-proxying-local-servers-through-nginx/
+# ideas gleened from: http://www.cyberciti.biz/tips/using-nginx-as-reverse-proxy.html
+# https://help.ubuntu.com/community/Nginx/ReverseProxy
+# http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass
 
 #----<nginx.conf>
 worker_processes 22;
