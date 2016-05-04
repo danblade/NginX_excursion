@@ -35,7 +35,7 @@ http {
         }
 }
 #----</nginx.conf>
-
+#no need to have separate files
 #----<default> (/etc/nginx/sites-available/default)
 server {
         listen       80;
