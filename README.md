@@ -1,4 +1,4 @@
-# Changing the name to excursion.
+Changing the name to excursion.
 
-# NginX_wanderings
+# NginX_excursion
 My wandering through NginX config
